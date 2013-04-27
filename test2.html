@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+<p>Test Paragraph</p>
+<div id="target_div"> </div> 
+<script type="text/javascript">
+
+
+function upOrDown (range) {
+	return (range / 2) - Math.round((Math.random() * range));
+}
+
+function newColor(val) {
+	var myRange = 6;
+	var gewichtung = Math.round(( (128 - val) / 128 ) );
+	var newColorVal = val + gewichtung + upOrDown(myRange);
+	if ( newColorVal >= 0  &&  newColorVal <= 255) {
+		return newColorVal;
+	}
+	else
+	{
+		if (newColorVal > 255) {
+			return newColorVal - myRange;
+		}
+		else
+		{
+			return newColorVal + myRange;
+		}
+	}
+	
+}
+
+function makeHexColor(colVal) {
+	var newString = colVal.toString(16);
+	if ( newString.length == 1 ) {
+		return "0" + newString;
+	}
+	else
+	{
+		return newString;
+	}
+}
+
+var rainbow = {
+	red: 255 ,
+	green: 255 ,
+	blue: 255 ,
+	delay: 25 ,
+	iterateColors: function () {
+		this.iterateRed();
+		this.iterateGreen();
+		this.iterateBlue();
+		this.updateColors();
+	} ,
+	iterateRed: function () {
+		this.red = newColor(this.red);
+	} ,
+	iterateGreen: function () {
+		this.green = newColor(this.green);
+	} ,
+	iterateBlue: function () {
+		this.blue = newColor(this.blue);
+	} ,
+	updateColors: function () {
+		colorString = "#" + makeHexColor(this.red) + makeHexColor(this.green) + makeHexColor(this.blue);
+		console.log("r: " + this.red + "g: " + this.green + "b: " + this.blue + "string: " + colorString);
+		document.bgColor = colorString;
+	} ,
+	start: function () {
+		this.iterateColors();
+		setTimeout("rainbow.start()", this.delay) ;
+	} ,
+	init: function () {
+		this.red = Math.round((Math.random() * 255));
+		this.green = Math.round((Math.random() * 255));
+		this.blue = Math.round((Math.random() * 255));
+	}
+}	
+
+
+rainbow.init();
+rainbow.start();
+
+
+</script>
+</body>
+
+</html>

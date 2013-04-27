@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Test</title>
+</head>
+<body>
+<p>Test Paragraph</p>
+<div id="target_div"> </div> 
+<script type="text/javascript">
+
+function addText(text) {
+	var target_div = document.getElementById("target_div"); 
+	var myText = document.createTextNode(text);
+	var myParagraph = document.createElement("paragraph");
+	myParagraph.appendChild(myText);
+	target_div.appendChild(myParagraph);
+}
+
+setTimeout("addText(\"Wusch\")", 1000);
+
+var delay = 0;
+
+function setColor(i) {
+	var r = i.toString(16);
+	var g = r, b = r;
+	document.bgColor = "#" + r + g + b;
+}
+
+function fadeWhite() {
+	var i = 1;
+	incFadeStep(i);
+}
+
+
+function incFadeStep(i) {
+	if ( delay == 0 ) {
+		i++;
+		if (i < 235)
+		{
+			setColor(i);
+			setTimeout("incFadeStep(" + i + ")", 10);
+		}
+		else
+		{
+			decFadeStep(i);
+		}
+	}
+	else
+	{
+		setTimeout("incFadeStep(" + i + ")", delay);
+		delay = 0;
+	}
+}
+
+function decFadeStep(i) {
+	if ( delay == 0 ) {
+		i--;
+		if (i > 20)
+		{
+			setColor(i);
+			setTimeout("decFadeStep(" + i + ")", 10);
+		}
+		else
+		{
+			incFadeStep(i);
+		}
+	}
+	else
+	{
+		setTimeout("decFadeStep(" + i + ")", delay);
+		delay = 0;
+	}
+}
+
+function startBlink(){
+	var cbR = 0;
+	var cbG = 0;
+	var cbB = 0;
+	colorBlink();
+}	
+
+function randomColor() {
+	return Math.round((Math.random() * 255));
+}
+
+function randomColors() {
+	cbR = randomColor();
+	cbG = randomColor();
+	cbB = randomColor();
+	var colorString = "#" + cbR.toString(16) + cbG.toString(16) + cbB.toString(16);
+	return colorString;
+}
+
+function colorBlink() {
+	document.bgColor = randomColors();
+	delay = 100;
+	setTimeout("colorBlink()", 1000);
+}	
+
+fadeWhite();
+colorBlink();
+
+
+</script>
+</body>
+
+</html>
